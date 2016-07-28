@@ -19,7 +19,6 @@
     $merchant_key = "I5T2R2K6V1Q3";
     
     // the nonce can be any unique identifier -- guids and timestamps work well
-    // duplicate values may be rejected
     $nonce = uniqid();
     
     // a standard unix timestamp. a request must be received within 60s
@@ -30,10 +29,10 @@
     $verb = "POST";
     $url = "https://api.sagepayments.com/bankcard/v1/charges?type=Sale";
     $requestData = [
-        // this is a pretty minimalistic request...
+        // this is a pretty minimalistic example...
         // complete reference material is available on the dev portal.
         "Ecommerce" => [
-            "OrderNumber" => "Invoice123",
+            "OrderNumber" => "Invoice " . rand(0, 1000),
             "Amounts" => [
                 "Total" => "1.00"
             ],
@@ -58,8 +57,6 @@
     // convert to base-64 for transport
     $hmac_b64 = base64_encode($hmac);
 
-    echo $hmac_b64;
-
     // ok, let's make the request! cURL is always an option, of course,
     // but i find that file_get_contents is a bit more intuitive.
     $config = [
@@ -74,16 +71,16 @@
                 "content-type: application/json",
             ],
             "method" => $verb,
-            "content" => $payload
+            "content" => $payload,
+            "ignore_errors" => true // exposes response body on 4XX errors
         ]
     ];
     $context = stream_context_create($config);
     $result = file_get_contents($url, false, $context);
+    $response = json_decode($result);
     
-    if ($result === false){
-        //  error handling
-    }else{
-        print_r($result);
-    }
+    echo '<pre>';
+    print_r($response);
+    echo '</pre>';
 
 ?>
