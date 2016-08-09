@@ -1,23 +1,7 @@
 <?php
     
-    // ===============================
-    // SAMPLE DIRECT API REQUEST - PHP
-    // Majid Razvi
-    // Software Engineer
-    // Sage Payment Solutions
-    // July 28th, 2016
-    // Standard MIT License.
-    // ===============================
-    
-    // your developer credentials
-    $client_id = "kCy6zhnC7MYN9mgA4SxaKePUdxnBrJ5W";
-    $client_key = "SeN0uFZtYhqN7gsJ";
-    
-    // you (or your client's) merchant credentials.
-    // grab a test account from us for development!
-    $merchant_id = "417227771521";
-    $merchant_key = "I5T2R2K6V1Q3";
-    
+    require("shared.php");
+
     // the nonce can be any unique identifier -- guids and timestamps work well
     $nonce = uniqid();
     
@@ -27,7 +11,7 @@
     
     // setting up the request data itself
     $verb = "POST";
-    $url = "https://api.sagepayments.com/bankcard/v1/charges?type=Sale";
+    $url = "https://api-cert.sagepayments.com/bankcard/v1/charges?type=Sale";
     $requestData = [
         // this is a pretty minimalistic example...
         // complete reference material is available on the dev portal.
@@ -47,27 +31,21 @@
 
     // the request is authorized via an HMAC header that we generate by
     // concatenating certain info, and then hashing it using our client key
-    $toBeHashed = $verb . $url . $payload . $merchant_id . $nonce . $timestamp;
-    $hmac = hash_hmac(
-        "sha512", // use the SHA-512 algorithm...
-        $toBeHashed, // ... to hash the combined string...
-        $client_key, // .. using your private dev key to sign it.
-        true // (php returns hexits by default; override this)
-    );
-    // convert to base-64 for transport
-    $hmac_b64 = base64_encode($hmac);
+    $toBeHashed = $verb . $url . $payload . $merchantCredentials["ID"] . $nonce . $timestamp;
+    $hmac = getHmac($toBeHashed, $developerCredentials["KEY"]);
+
 
     // ok, let's make the request! cURL is always an option, of course,
     // but i find that file_get_contents is a bit more intuitive.
     $config = [
         "http" => [
             "header" => [
-                "clientId: " . $client_id,
-                "merchantId: " . $merchant_id,
-                "merchantKey: " . $merchant_key,
+                "clientId: " . $developerCredentials["ID"],
+                "merchantId: " . $merchantCredentials["ID"],
+                "merchantKey: " . $merchantCredentials["KEY"],
                 "nonce: " . $nonce,
                 "timestamp: " . $timestamp,
-                "authorization: " . $hmac_b64,
+                "authorization: " . $hmac,
                 "content-type: application/json",
             ],
             "method" => $verb,
