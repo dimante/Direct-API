@@ -52,8 +52,9 @@
     
     // ---------------------------------------------------------------
     
-    // so, now we should have an approved charge
-    // what if we need to void it out? 
+    // so, now we should have an approved charge -- what if we need to cancel it? 
+    // if it's still in our open batch (which usually = it's the same day), we 
+    // can void it out. if it's already been settled, we have to credit it.
 
     // we'll need a new nonce and timestamp:
     $nonce = uniqid();
