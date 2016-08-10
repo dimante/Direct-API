@@ -70,11 +70,9 @@
     
     // the request object is pretty straightforward:
     $requestData = [
-        "Ecommerce" => [
-            "Amounts" => [
-                "Total" => "1.15",
-                "Tip" => "0.15"
-            ]
+        "Amounts" => [
+            "Total" => "1.15",
+            "Tip" => "0.15"
         ]
     ];
     $payload = json_encode($requestData);
@@ -112,6 +110,7 @@
     
     echo '<pre>';
     print_r($response);
+    print_r($http_response_header);
     echo '</pre>';
 
 ?>
