@@ -95,6 +95,7 @@
     
     echo '<pre>';
     print_r($response);
+    print_r($http_response_header);
     echo '</pre>';
 
 ?>
