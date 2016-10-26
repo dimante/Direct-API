@@ -46,7 +46,7 @@
     ]
   ],
   "vault" => [
-          "token" => "8419d9cb53ab485794ec46ef5b83face",
+          "token" => "{token}",
           "operation" => "Read"
           
         ]
