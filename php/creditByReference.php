@@ -11,7 +11,7 @@
     
     // setting up the request data itself
     $verb = "POST";
-    $url = "https://api-cert.sagepayments.com/bankcard/v1/credits/CAAGADI760";
+    $url = "https://api-cert.sagepayments.com/bankcard/v1/credits/{reference}";
     $requestData = [
         // complete reference material is available on the dev portal: https://developer.sagepayments.com/apis
         "transactionId" =>  "",
