@@ -11,7 +11,7 @@
     
     // setting up the request data itself
     $verb = "PUT";
-    $url = "https://api-cert.sagepayments.com/token/v1/tokens/bcb6f9e278d343109d3bed2dd6b88dea";
+    $url = "https://api-cert.sagepayments.com/token/v1/tokens/{token}";
     $requestData = [
         // complete reference material is available on the dev portal: https://developer.sagepayments.com/apis
             "CardData" => [
