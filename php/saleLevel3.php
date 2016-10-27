@@ -13,43 +13,42 @@
     $verb = "POST";
     $url = "https://api-cert.sagepayments.com/bankcard/v1/charges?type=Sale";
     $requestData = [
-        // complete reference material is available on the dev portal: https://developer.sagepayments.com/apis
+    // complete reference material is available on the dev portal: https://developer.sagepayments.com/apis
     "ECommerce" => [
         "amounts" => [
-          "tip" => 4.24,
-          "total" => 42.42,
-          "tax" => 2.12,
-          "shipping" => 1.06
+            "tip" => 4.24,
+            "total" => 42.42,
+            "tax" => 2.12,
+            "shipping" => 1.06
         ],
         "cardData" => [
-          "number" => "4128123412341231",
-          "expiration" => "0620",
-          "cvv" => "123"
+            "number" => "4128123412341231",
+            "expiration" => "0620",
+            "cvv" => "123"
         ],
         "customer" => [
-          "email" => "kur@foo.com",
-          "telephone" => "4846951106",
-          "fax" => "4846951106"
+            "email" => "kur@foo.com",
+            "telephone" => "4846951106",
+            "fax" => "4846951106"
         ],
-    "orderNumber" => "",
-        "billing" => [
-      "name" => "Level3 Sale",
-      "address" => "way road",
-      "city" => "Reston",
-      "state" => "VA",
-      "postalCode" => "12345",
-      "country" => "US"
-    ],
-    "shipping" => [
-      "name" => "foo",
-      "address" => "123 Test road",
-      "city" => "Reston",
-      "state" => "VA",
-      "postalCode" => "12345",
-      "country" => "US"
-    ],
-    
-    "level3" => [
+        "orderNumber" => "",
+            "billing" => [
+            "name" => "Level3 Sale",
+            "address" => "way road",
+            "city" => "Reston",
+            "state" => "VA",
+            "postalCode" => "12345",
+            "country" => "US"
+        ],
+        "shipping" => [
+            "name" => "foo",
+            "address" => "123 Test road",
+            "city" => "Reston",
+            "state" => "VA",
+            "postalCode" => "12345",
+            "country" => "US"
+        ],
+        "level3" => [
             "destinationCountryCode" => "840",
             "amounts" => [
                 "discount" => 10,
@@ -63,10 +62,10 @@
                 "rate" => 50
             ],
             "customerNumber" => "7890"
-    ]
-
         ]
-    ];
+
+    ]
+];
     // convert to json for transport
     $payload = json_encode($requestData);
 
