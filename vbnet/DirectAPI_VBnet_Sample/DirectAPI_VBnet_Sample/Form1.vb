@@ -135,6 +135,9 @@ Public Class Main
         'an App under My Apps. Please let us know if you have any questions.
         Dim merchantId As String = "173859436515"
         Dim merchantKey As String = "P1J2V8P2Q3D8"
+        'TH - The Client ID and Client Key should be hard coded and not displayed
+        'in the production product. These are your API credentials used for
+        'security and tracking purposes.
         Dim clientId As String = "W8yvKQ5XbvAn7dUDJeAnaWCEwA4yXEgd"
         Dim clientSecret As String = "iLzODV5AUsCGWGkr"
 
