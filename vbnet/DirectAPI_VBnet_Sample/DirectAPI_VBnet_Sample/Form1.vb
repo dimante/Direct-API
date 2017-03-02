@@ -116,6 +116,15 @@ Public Class Main
             'TH - Display response.
             txtJSONResponse.Text = responseFromServer
 
+			'JG - Deserialize and work with reponse elements
+			 Dim exampleJson As String = txtJSONResponse.Text 
+			 Dim post = JsonConvert.DeserializeObject(exampleJson)
+             Dim status As String = post("status") ' Approval code 
+             txtJSONResponse.text = txtJSONResponse.text & Deserialized element:" & status
+			
+			
+			
+			
             'TH - Catch any errors
         Catch ex As Exception
             txtJSONResponse.Text = "Server Response: " & ex.Message
