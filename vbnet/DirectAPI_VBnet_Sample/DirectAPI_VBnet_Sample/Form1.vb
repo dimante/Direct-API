@@ -114,22 +114,34 @@ Public Class Main
             web_response.Close()
 
             'TH - Display response.
-            txtJSONResponse.Text = responseFromServer
+            'TH - Updated 20170303 - Added more detail to response display
+            txtJSONResponse.Text = "Server Status Code: " & web_response.StatusCode & vbCrLf &
+                "Server Status: " & web_response.StatusDescription & vbCrLf &
+                "API Response: " & responseFromServer
 
-			'JG - Deserialize and work with reponse elements
-			 Dim exampleJson As String = txtJSONResponse.Text 
-			 Dim post = JsonConvert.DeserializeObject(exampleJson)
-             Dim status As String = post("status") ' Approval code 
-             txtJSONResponse.text = txtJSONResponse.text & Deserialized element:" & status
+            'JG - Deserialize and work with reponse elements
+            'TH - Updated 20170303 - changed the value of exampleJson to use responseFromServer as the
+            'text object txtJSONResponse has non-JSON data.
+            Dim exampleJson As String = responseFromServer
+            Dim post = JsonConvert.DeserializeObject(exampleJson)
+            Dim status As String = post("status") ' Approval code 
+            txtJSONResponse.Text = responseFromServer & vbCrLf & vbCrLf & "Deserialized Element:" & status
 			
 			
 			
 			
-            'TH - Catch any errors
+            'TH - Catch any errors.
+            'TH - Updated 03/03/2017 - Added WebException and extra error gathering to include response stream.
+        Catch ex As WebException
+
+            'Read the real response from the server
+            Dim sResponse As String = New StreamReader(ex.Response.GetResponseStream()).ReadToEnd
+
+	txtJSONResponse.Text = "Web Exception Message: " & ex.Message.ToString & vbCrLf & vbCrLf &
+                "API Response: " & sResponse
+
         Catch ex As Exception
-            txtJSONResponse.Text = "Server Response: " & ex.Message
-        End Try
-
+            txtJSONResponse.Text = "Exception Message: " & ex.Message.ToString
 
 
     End Sub
