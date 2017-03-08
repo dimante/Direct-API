@@ -1,4 +1,4 @@
-﻿Imports Newtonsoft.Json
+Imports Newtonsoft.Json
 Imports System.Security.Cryptography
 Imports System.Text
 Imports System.Net
@@ -114,6 +114,7 @@ Public Class Main
             web_response.Close()
 
             'TH - Display response.
+
             txtJSONResponse.Text = responseFromServer
 
 			'JG - Deserialize and work with reponse elements
@@ -127,15 +128,34 @@ Public Class Main
              Dim avsresult As String = post("avsresult")
              Dim riskcode As String = post("riskcode")
              txtJSONResponse.text = txtJSONResponse.text & Deserialized element:" & status
-			'End
-			
-			
-			
-            'TH - Catch any errors
-        Catch ex As Exception
-            txtJSONResponse.Text = "Server Response: " & ex.Message
-        End Try
+	
+            'TH - Updated 20170303 - Added more detail to response display
+            txtJSONResponse.Text = "Server Status Code: " & web_response.StatusCode & vbCrLf &
+                "Server Status: " & web_response.StatusDescription & vbCrLf &
+                "API Response: " & responseFromServer
 
+            'JG - Deserialize and work with reponse elements
+            'TH - Updated 20170303 - changed the value of exampleJson to use responseFromServer as the
+            'text object txtJSONResponse has non-JSON data.
+            Dim exampleJson As String = responseFromServer
+            Dim post = JsonConvert.DeserializeObject(exampleJson)
+            Dim status As String = post("status") ' Approval code 
+            txtJSONResponse.Text = responseFromServer & vbCrLf & vbCrLf & "Deserialized Element:" & status
+					
+			
+			
+            'TH - Catch any errors.
+            'TH - Updated 03/03/2017 - Added WebException and extra error gathering to include response stream.
+        Catch ex As WebException
+
+            'Read the real response from the server
+            Dim sResponse As String = New StreamReader(ex.Response.GetResponseStream()).ReadToEnd
+
+	txtJSONResponse.Text = "Web Exception Message: " & ex.Message.ToString & vbCrLf & vbCrLf &
+                "API Response: " & sResponse
+
+        Catch ex As Exception
+            txtJSONResponse.Text = "Exception Message: " & ex.Message.ToString
 
 
     End Sub
