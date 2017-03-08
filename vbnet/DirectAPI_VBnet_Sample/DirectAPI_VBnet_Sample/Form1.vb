@@ -117,11 +117,17 @@ Public Class Main
             txtJSONResponse.Text = responseFromServer
 
 			'JG - Deserialize and work with reponse elements
-			 Dim exampleJson As String = txtJSONResponse.Text 
+			 Dim exampleJson As String = responseFromServer
 			 Dim post = JsonConvert.DeserializeObject(exampleJson)
              Dim status As String = post("status") ' Approval code 
+			 Dim reference As String = post("reference")
+             Dim message As String = post("message")
+             Dim code As String = post("code")
+             Dim cvvresult As String = post("cvvresult")
+             Dim avsresult As String = post("avsresult")
+             Dim riskcode As String = post("riskcode")
              txtJSONResponse.text = txtJSONResponse.text & Deserialized element:" & status
-			
+			'End
 			
 			
 			
