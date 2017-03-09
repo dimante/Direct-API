@@ -127,11 +127,11 @@ Public Class Main
              Dim cvvresult As String = post("cvvresult")
              Dim avsresult As String = post("avsresult")
              Dim riskcode As String = post("riskcode")
-             txtJSONResponse.text = txtJSONResponse.text & Deserialized element:" & status
+            'txtJSONResponse.text = txtJSONResponse.text & Deserialized element:" & status
 	
-            'TH - Updated 20170303 - Added more detail to response display
-            txtJSONResponse.Text = "Server Status Code: " & web_response.StatusCode & vbCrLf &
-                "Server Status: " & web_response.StatusDescription & vbCrLf &
+            'TH - Updated 20170303 - Added more detail to response display 'JG - Added Ctype structure as previous was not working in all instances.
+            txtJSONResponse.Text = "Server Status Code: " & (CType(web_response, HttpWebResponse).StatusCode) & vbCrLf &
+                "Server Status: " & (CType(web_response, HttpWebResponse).Description) & vbCrLf &
                 "API Response: " & responseFromServer
 
             'JG - Deserialize and work with reponse elements
