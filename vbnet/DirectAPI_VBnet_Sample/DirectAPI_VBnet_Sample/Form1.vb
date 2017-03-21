@@ -1,4 +1,4 @@
-﻿Imports Newtonsoft.Json
+Imports Newtonsoft.Json
 Imports System.Security.Cryptography
 Imports System.Text
 Imports System.Net
@@ -114,9 +114,24 @@ Public Class Main
             web_response.Close()
 
             'TH - Display response.
-            'TH - Updated 20170303 - Added more detail to response display
-            txtJSONResponse.Text = "Server Status Code: " & web_response.StatusCode & vbCrLf &
-                "Server Status: " & web_response.StatusDescription & vbCrLf &
+
+            txtJSONResponse.Text = responseFromServer
+
+			'JG - Deserialize and work with reponse elements
+			 Dim exampleJson As String = responseFromServer
+			 Dim post = JsonConvert.DeserializeObject(exampleJson)
+             Dim status As String = post("status") ' Approval code 
+			 Dim reference As String = post("reference")
+             Dim message As String = post("message")
+             Dim code As String = post("code")
+             Dim cvvresult As String = post("cvvresult")
+             Dim avsresult As String = post("avsresult")
+             Dim riskcode As String = post("riskcode")
+            'txtJSONResponse.text = txtJSONResponse.text & Deserialized element:" & status
+	
+            'TH - Updated 20170303 - Added more detail to response display 'JG - Added Ctype structure as previous was not working in all instances.
+            txtJSONResponse.Text = "Server Status Code: " & (CType(web_response, HttpWebResponse).StatusCode) & vbCrLf &
+                "Server Status: " & (CType(web_response, HttpWebResponse).Description) & vbCrLf &
                 "API Response: " & responseFromServer
 
             'JG - Deserialize and work with reponse elements
@@ -126,8 +141,7 @@ Public Class Main
             Dim post = JsonConvert.DeserializeObject(exampleJson)
             Dim status As String = post("status") ' Approval code 
             txtJSONResponse.Text = responseFromServer & vbCrLf & vbCrLf & "Deserialized Element:" & status
-			
-			
+					
 			
 			
             'TH - Catch any errors.

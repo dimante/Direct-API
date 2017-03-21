@@ -53,6 +53,8 @@ namespace DirectAPI_Csharp_Sample
             string strTotalAmount = "7";
             string strCardNumber = "5454545454545454";
             string strExpDate = "1220";
+            //TH - 20170304 - Added the equivalent of vbCrLf in vb.net
+            string nl = Environment.NewLine;
 
 
             //TH - Build request message
@@ -125,10 +127,22 @@ namespace DirectAPI_Csharp_Sample
                 web_response.Close();
 
                 //TH - Display response.
-                txtJSONResponse.Text = responseFromServer;
+                //TH - 20170304 - Added more detail to the displayed response.
+                txtJSONResponse.Text = "Server Status Code: " + web_response.StatusCode + nl + 
+                    "Server Status: " + web_response.StatusDescription + nl + 
+                    "API Response: " + responseFromServer;
                 
             }
-            catch(Exception exception)
+            //TH - 20170304 - Added WebExecption to allow code to gather added detail from the exception.
+            catch (WebException exception)
+            {
+                //TH - 20170304 - Added more detail regarding exception to gather the API response data.
+                var sResponse = new StreamReader(exception.Response.GetResponseStream()).ReadToEnd();
+                txtJSONResponse.Text = "Server Response: " + exception.Message + nl + nl +
+                    "API Response: " + sResponse;
+            }
+
+            catch (Exception exception)
             {
                 txtJSONResponse.Text = "Server Response: " + exception.Message;
             }
