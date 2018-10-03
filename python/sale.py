@@ -1,9 +1,9 @@
 # Sample donated by Coretechs
-# Updated By: Thomas Hagan - Integration Consultant, Product Integration
-# Company: Sage Payment Solutions
+# Updated By: SDK Support, Tech Ops
+# Company: Paya, Inc.
 # Sample for educational use only - not intended for production.
 # If you have any questions regarding the sample or the Direct API please contact
-# us at sdksupport@sage.com
+# us at sdksupport@paya.com
 import uuid
 import hmac
 import hashlib
@@ -34,17 +34,17 @@ requests_log.propagate = True
 # These are the Merchant Credentials, please feel free to use the prodvided
 # Merchant ID and Merchant Key for testing. If you would like your own test 
 # Merchant account with access to the Virtual Terminal, please request an account
-# from sdksupport@sage.com
-SAGE_MERCHANT_ID = '173859436515'
-SAGE_MERCHANT_KEY = 'P1J2V8P2Q3D8'
+# from sdksupport@paya.com
+PAYA_MERCHANT_ID = '173859436515'
+PAYA_MERCHANT_KEY = 'P1J2V8P2Q3D8'
 # These are the Developer/API Credentials, please feel free to use the prodvided
 # Client ID and Client Secret for initial testing. However, once you register 
 # with the developer portal at https://developer.sagepayments.com you will need
 # to setup an App under "My Apps", this will provide your unique Client ID and 
 # Client Secret.
-SAGE_CLIENT_ID = 'W8yvKQ5XbvAn7dUDJeAnaWCEwA4yXEgd'
-SAGE_CLIENT_SECRET = b"iLzODV5AUsCGWGkr"
-SAGE_API_ENDPOINT = 'https://api-cert.sagepayments.com/'
+PAYA_CLIENT_ID = 'W8yvKQ5XbvAn7dUDJeAnaWCEwA4yXEgd'
+PAYA_CLIENT_SECRET = b"iLzODV5AUsCGWGkr"
+PAYA_API_ENDPOINT = 'https://api-cert.sagepayments.com/'
 
 
 # the nonce can be any unique identifier -- guids and timestamps work well
@@ -59,7 +59,7 @@ timestamp = int(time.time())
 verb = "POST"
 url = "https://api-cert.sagepayments.com/bankcard/v1/charges?type=Sale"
 # url = "http://requestb.in" # This is a great alternative URL for testing. Please
-# keep in mind Requestb.in is not managed by Sage Payment Solutions.
+# keep in mind Requestb.in is not managed by Paya, Inc.
 
 requestData = {
     # this is a pretty minimalistic example...
@@ -91,27 +91,27 @@ payload = json.dumps(requestData)
 
 # the request is authorized via an HMAC header that we generate by
 # concatenating certain info, and then hashing it using our client key
-toBeHashed = "{verb}{url}{payload}{SAGE_MERCHANT_ID}{nonce}{timestamp}".format(
+toBeHashed = "{verb}{url}{payload}{PAYA_MERCHANT_ID}{nonce}{timestamp}".format(
     verb=verb,
     url=url,
     payload=payload,
-    SAGE_MERCHANT_ID=SAGE_MERCHANT_ID,
+    PAYA_MERCHANT_ID=PAYA_MERCHANT_ID,
     nonce=nonce,
     timestamp=timestamp,
 )
 
 # build the authorization for the header. With python it is not necessary to
 # convert the hmac to hex prior to base64 encoding it.
-digest = hmac.new(SAGE_CLIENT_SECRET, msg=toBeHashed.encode('utf-8'), digestmod=hashlib.sha512).digest()
+digest = hmac.new(PAYA_CLIENT_SECRET, msg=toBeHashed.encode('utf-8'), digestmod=hashlib.sha512).digest()
 signature = base64.b64encode(digest).decode()
 
 # submit the POST with the appropriate headers.
 r = requests.post(
     url,
     headers={
-        'clientId': SAGE_CLIENT_ID,
-        'merchantId': SAGE_MERCHANT_ID,
-        'merchantKey': SAGE_MERCHANT_KEY,
+        'clientId': PAYA_CLIENT_ID,
+        'merchantId': PAYA_MERCHANT_ID,
+        'merchantKey': PAYA_MERCHANT_KEY,
         'nonce': str(nonce),
         'timestamp': str(timestamp),
         'authorization': signature,

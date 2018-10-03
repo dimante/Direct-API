@@ -5,17 +5,24 @@ using System.Security.Cryptography;
 using System.Net;
 using System.IO;
 
+
+
+
 namespace DirectAPI_Csharp_Sample
 {
     //=====================================================
     //Sample Direct API request - C#.net
     //Thomas Hagan
-    //Integration Consultant
-    //Sage Payment Solutions
-    //November 22nd, 2016
+    //Integration Consultant Sr
+    //Paya, Inc.
+    //Pubilished: November 22nd, 2016
+    //Updated: October 3rd, 2018 - Removed references to "Sage" 
+    //  other than existing sagepayments URLs. Also addressed TLS
+    //  1.0 shutdown issues.
+    //
     //Application is intended for instructional use only.
     //If you have any questions, please feel free to email
-    //the Integration Support team at sdksupport@sage.com
+    //the Integration Support team at sdksupport@paya.com
     //Also, please make sure to register for API credentials
     //at our developer portal: https://developer.sagepayments.com
     //======================================================
@@ -29,7 +36,7 @@ namespace DirectAPI_Csharp_Sample
         private void btProcess_Click(object sender, EventArgs e)
         {
             //TH - Test Data. This is the test account infomation we provide
-            //in the API Sandbox. Please contact us at sdksupport@sage.com if
+            //in the API Sandbox. Please contact us at sdksupport@paya.com if
             //you need a unique test account and receive the Merchant ID and
             //Merchant Key. In order to get your own Client ID and Client Secret
             //you must register at https://developer.sagepayments.com and setup
@@ -88,12 +95,18 @@ namespace DirectAPI_Csharp_Sample
             byte[] hash_authToken = new HMACSHA512(Encoding.ASCII.GetBytes(clientSecret)).ComputeHash(Encoding.ASCII.GetBytes(authToken));
             string hash64_authToken = Convert.ToBase64String(hash_authToken);
 
+            //////////////////////////////////////////////////////////////////
+            //TH - 20181003 - Added for TLS 1.0 shutdown requirements.
+            ServicePointManager.Expect100Continue = true;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            //////////////////////////////////////////////////////////////////
+
             //TH - Initiate Web Request
             var web_request = (HttpWebRequest)WebRequest.Create(url_sale);
 
             //TH - Set the headers and details
             var web_request_headers = web_request.Headers;
-            Console.WriteLine("Configuring web_request to include headers for Sage Direct API");
+            Console.WriteLine("Configuring web_request to include headers for Paya Direct API");
             web_request_headers["clientId"] = clientId;
             web_request_headers["merchantId"] = merchantId;
             web_request_headers["merchantKey"] = merchantKey;
@@ -106,6 +119,7 @@ namespace DirectAPI_Csharp_Sample
             var byteArray = Encoding.ASCII.GetBytes(strRequest);
 
             //TH - Send the data
+
             web_request.ContentType = contentType;
             web_request.ContentLength = byteArray.Length;
             var datastream = web_request.GetRequestStream();
