@@ -1,13 +1,12 @@
 <?php
-
 /*----------------------------------------------
 Author: SDK Support Group
-Company: Sage Payment Solutions
-Contact: sdksupport@sage.com
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Company: Paya
+Contact: sdksupport@paya.com
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!! Samples intended for educational use only!!!
-!!!        Not intended for production       !!!!!!!!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!        Not intended for production       !!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 -----------------------------------------------*/
     
     require("shared.php");

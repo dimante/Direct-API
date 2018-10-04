@@ -1,19 +1,18 @@
 <?php
-
 /*----------------------------------------------
 Author: SDK Support Group
-Company: Sage Payment Solutions
-Contact: sdksupport@sage.com
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Company: Paya
+Contact: sdksupport@paya.com
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!! Samples intended for educational use only!!!
-!!!        Not intended for production       !!!!!!!!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!        Not intended for production       !!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 -----------------------------------------------*/
 
     // You (or your client's) merchant credentials.
     // grab a test account from us for development!
 	// If you would like a merchant test account, please
-	// email us at sdksupport@sage.com, otherwise
+	// email us at sdksupport@paya.com, otherwise
 	// you are welcome to test with the credentials below.
     $merchantCredentials = [
        "ID" => "173859436515",

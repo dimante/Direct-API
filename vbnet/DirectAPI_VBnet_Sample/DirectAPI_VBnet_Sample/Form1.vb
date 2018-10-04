@@ -9,14 +9,18 @@ Imports System.IO
 Public Class Main
 
     '=====================================================
-    'Sample Direct API request - VB.net
+    'Sample Direct API request - C#.net
     'Thomas Hagan
-    'Integration Consultant
-    'Sage Payment Solutions
-    'October 24th, 2016
-    'Application is intended for instructional use only.
+    'Integration Consultant Sr
+    'Paya, Inc.
+    'Pubilished: November 22nd, 2016
+    'Updated: October 3rd, 2018 - Removed references to "Sage" 
+    '  other than existing sagepayments URLs. Also addressed TLS
+    '  1.0 shutdown issues.
+    '
+    'Application Is intended for instructional use only.
     'If you have any questions, please feel free to email
-    'the Integration Support team at sdksupport@sage.com
+    'the Integration Support team at sdksupport@paya.com
     'Also, please make sure to register for API credentials
     'at our developer portal: https://developer.sagepayments.com
     '======================================================
@@ -75,12 +79,18 @@ Public Class Main
         End Using
         hash64_authToken = Convert.ToBase64String(hash_authToken)
 
+        '//////////////////////////////////////////////////////////////////
+        'TH - 20181003 - Added for TLS 1.0 shutdown requirements.
+        ServicePointManager.Expect100Continue = True
+        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12
+        '//////////////////////////////////////////////////////////////////
+
         'TH - Initiate a Web Request
         Dim web_request As HttpWebRequest = CType(HttpWebRequest.Create(url_sale), HttpWebRequest)
 
         'TH - Set the headers and details
         Dim web_request_headers As WebHeaderCollection = web_request.Headers
-        Console.WriteLine("Configuring web_request to included headers for Sage Direct API")
+        Console.WriteLine("Configuring web_request to included headers for Paya Direct API")
         web_request_headers.Add("clientId: " & clientId)
         web_request_headers.Add("merchantId: " & merchantId)
         web_request_headers.Add("merchantKey: " & merchantKey)
@@ -117,33 +127,33 @@ Public Class Main
 
             txtJSONResponse.Text = responseFromServer
 
-			'JG - Deserialize and work with reponse elements
-			 Dim exampleJson As String = responseFromServer
-			 Dim post = JsonConvert.DeserializeObject(exampleJson)
-             Dim status As String = post("status") ' Approval code 
-			 Dim reference As String = post("reference")
-             Dim message As String = post("message")
-             Dim code As String = post("code")
-             Dim cvvresult As String = post("cvvresult")
-             Dim avsresult As String = post("avsresult")
-             Dim riskcode As String = post("riskcode")
+            'JG - Deserialize and work with reponse elements
+            Dim exampleJson As String = responseFromServer
+            Dim post = JsonConvert.DeserializeObject(exampleJson)
+            Dim status As String = post("status") ' Approval code 
+            Dim reference As String = post("reference")
+            Dim message As String = post("message")
+            Dim code As String = post("code")
+            Dim cvvresult As String = post("cvvresult")
+            Dim avsresult As String = post("avsresult")
+            Dim riskcode As String = post("riskcode")
             'txtJSONResponse.text = txtJSONResponse.text & Deserialized element:" & status
-	
+
             'TH - Updated 20170303 - Added more detail to response display 'JG - Added Ctype structure as previous was not working in all instances.
             txtJSONResponse.Text = "Server Status Code: " & (CType(web_response, HttpWebResponse).StatusCode) & vbCrLf &
-                "Server Status: " & (CType(web_response, HttpWebResponse).Description) & vbCrLf &
+                "Server Status: " & (CType(web_response, HttpWebResponse).StatusDescription) & vbCrLf &
                 "API Response: " & responseFromServer
 
             'JG - Deserialize and work with reponse elements
             'TH - Updated 20170303 - changed the value of exampleJson to use responseFromServer as the
             'text object txtJSONResponse has non-JSON data.
-            Dim exampleJson As String = responseFromServer
-            Dim post = JsonConvert.DeserializeObject(exampleJson)
-            Dim status As String = post("status") ' Approval code 
-            txtJSONResponse.Text = responseFromServer & vbCrLf & vbCrLf & "Deserialized Element:" & status
-					
-			
-			
+            'Dim exampleJson As String = responseFromServer
+            'Dim post = JsonConvert.DeserializeObject(exampleJson)
+            'Dim status As String = post("status") ' Approval code 
+            'txtJSONResponse.Text = responseFromServer & vbCrLf & vbCrLf & "Deserialized Element:" & status
+
+
+
             'TH - Catch any errors.
             'TH - Updated 03/03/2017 - Added WebException and extra error gathering to include response stream.
         Catch ex As WebException
@@ -151,11 +161,13 @@ Public Class Main
             'Read the real response from the server
             Dim sResponse As String = New StreamReader(ex.Response.GetResponseStream()).ReadToEnd
 
-	txtJSONResponse.Text = "Web Exception Message: " & ex.Message.ToString & vbCrLf & vbCrLf &
-                "API Response: " & sResponse
+            txtJSONResponse.Text = "Web Exception Message: " & ex.Message.ToString & vbCrLf & vbCrLf &
+                        "API Response: " & sResponse
 
         Catch ex As Exception
             txtJSONResponse.Text = "Exception Message: " & ex.Message.ToString
+
+        End Try
 
 
     End Sub
@@ -163,7 +175,7 @@ Public Class Main
     Private Sub btLoad_Click(sender As Object, e As EventArgs) Handles btLoad.Click
 
         'TH - Test Data. This is the test account infomation we provide
-        'in the API Sandbox. Please contact us at sdksupport@sage.com if
+        'in the API Sandbox. Please contact us at sdksupport@paya.com if
         'you need a unique test account and receive the Merchant ID and
         'Merchant Key. In order to get your own Client ID and Client Secret
         'you must register at https://developer.sagepayments.com and setup
