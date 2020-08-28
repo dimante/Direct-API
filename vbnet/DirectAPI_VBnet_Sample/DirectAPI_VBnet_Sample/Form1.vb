@@ -9,7 +9,7 @@ Imports System.IO
 Public Class Main
 
     '=====================================================
-    'Sample Direct API request - C#.net
+    'Sample Direct API request - VB.net
     'Thomas Hagan
     'Integration Consultant Sr
     'Paya, Inc.
